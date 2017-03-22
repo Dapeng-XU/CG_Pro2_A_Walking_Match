@@ -138,7 +138,7 @@ function redraw() {
     // 停止已有的绘制刷新循环
     stop();
     // 初始化新的图形绘制，绘制整个场景
-    // initGraphics();
+    initGraphics();
 }
 
 // 禁止用户选择文本，优化UI体验
@@ -148,3 +148,16 @@ document.body.onselectstart = function () {
     return false;
 };
 
+
+// 避免多个requestAnimationFrame()循环同时绘制图像。
+/* 对整个场景进行重绘（重新建立一个绘制，scene也重新创建）时，如果不停止已有的动画循环，即不使用下面这段代码，会造成帧速率升高
+ * 的问题。这是由JavaScript的内部机制决定的。
+ */
+var requestId;
+function stop() {
+    "use strict";
+    if (requestId) {
+        window.cancelAnimationFrame(requestId);
+        requestId = undefined;
+    }
+}

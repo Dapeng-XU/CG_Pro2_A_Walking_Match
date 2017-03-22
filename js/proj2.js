@@ -10,28 +10,20 @@ document.body.onload = function () {
     redraw();
 }
 
-// 避免多个requestAnimationFrame()循环同时绘制图像。
-/* 对整个场景进行重绘（重新建立一个绘制，scene也重新创建）时，如果不停止已有的动画循环，即不使用下面这段代码，会造成帧速率升高
- * 的问题。这是由JavaScript的内部机制决定的。
- */
-var requestId;
-function stop() {
-    "use strict";
-    if (requestId) {
-        window.cancelAnimationFrame(requestId);
-        requestId = undefined;
-    }
-}
+var cube;
+var ball;
 
 // 初始化的图形绘制
 var scene = new THREE.Scene();
 var camera, renderer, raycaster;
+var light = new THREE.Group();
+scene.add(light);
 var canv = document.getElementById('canvas');
 // 默认背景色
-var DEFAULT_BACKGROUND_COLOR = 0x000000;
+var DEFAULT_BACKGROUND_COLOR = 0xDDDDDD;
 function initGraphics() {
     "use strict";
-    var i;
+    var i, j;
 
     // Three.js的三要素：场景、相机、渲染器。
     // 相机的初始化代码提到后面了
@@ -92,6 +84,54 @@ function initGraphics() {
     var axisHelper = new THREE.AxisHelper(1000);
     scene.add(axisHelper);
 
+    // 显示几何对象
+    // var geo_box_0 = new THREE.BoxGeometry(2, 2, 2, 1, 1, 1);
+    // var mat_box_0 = new THREE.MeshBasicMaterial({
+    //     color: 0x222222,
+    //     lights: false
+    // });
+    // var cube = new THREE.Mesh(geo_box_0, mat_box_0);
+    // // cube.position = new THREE.Vector3(0, 0, 0);
+    // scene.add(cube);
+    // var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+    // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+    // var cube = new THREE.Mesh( geometry, material );
+    // scene.add( cube );
+
+    var geometry, material;
+    for (j = 0; j < 30; j++)
+    {
+        geometry = new THREE.BoxGeometry( 5, 5, 5 );
+        for ( i = 0; i < geometry.faces.length; i += 2 ) {
+            var hex = Math.random() * 0xffffff;
+            geometry.faces[ i ].color.setHex( hex );
+            geometry.faces[ i + 1 ].color.setHex( hex );
+        }
+        material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
+        cube = new THREE.Mesh( geometry, material );
+        cube.position.x = 0;
+        cube.position.y = 0;
+        cube.position.z = j * 5 - 75;
+        scene.add( cube );
+    }
+
+    {
+        geometry = new THREE.SphereGeometry( 4, 8, 8 );
+        for ( i = 0; i < geometry.faces.length; i += 3) {
+            var hex = getRandColor();
+            geometry.faces[i].color.setHex( hex );
+            if (geometry.faces[i+1] !== undefined) {
+                geometry.faces[i+1].color.setHex( hex );
+            }
+            if (geometry.faces[i+2] !== undefined) {
+                geometry.faces[i+2].color.setHex( hex );
+            }
+        }
+        material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5} );
+        ball = new THREE.Mesh( geometry, material );
+        scene.add(ball);
+    }
+
     // 显示网格
     // var gridHelper = new THREE.GridHelper(10, 20);
     // var gridHelper2 = new THREE.GridHelper(10, 20);
@@ -116,9 +156,78 @@ function initGraphics() {
     // scene.add(gridHelper6);
 
     // 射线，用于拾取(pick)对象
-    raycaster = new THREE.Raycaster();
+    // raycaster = new THREE.Raycaster();
+
+    updateLight();
+    launchDefaultCamera();
+    // FPS();
 
     render();
+}
+
+function updateLight() {
+    light.add(new THREE.AmbientLight(0x888888, 0.5));
+}
+
+function launchDefaultCamera() {
+    camera = new THREE.PerspectiveCamera(40, canvWidth / canvHeight, 0.1, 10000);
+    // cPosition = new THREE.Vector3(10,10,10);
+    lPosition = new THREE.Vector3(0,0,0);
+    var one = 30;
+    camera.position.x = one;
+    camera.position.y = one;
+    camera.position.z = one;
+    camera.lookAt(lPosition);
+    // scene.add(camera);
+    camera.updateMatrixWorld();
+}
+
+function updateCamera() {
+    lPosition = new THREE.Vector3(0,0,0);
+    camera.lookAt(lPosition);
+    camera.updateMatrixWorld();
+}
+
+cameraEllipseAnimate = {
+    theta : 0.0,
+    xa : 5,
+    zb : 20,
+    yc : 10,
+    x : function () {
+        return this.xa * Math.cos(this.theta);
+    },
+    y : function () {
+        return (this.theta >= 0) ? (-this.yc*2/Math.PI*(this.theta - Math.PI/2)) :
+            (this.yc*2/Math.PI*(this.theta + Math.PI / 2));
+        // return 0;
+    },
+    z : function () {
+        return this.zb * Math.sin(this.theta);
+    },
+    increase : function () {
+        this.theta += ONE_DEGREE_IN_RADIANS;
+        while (this.theta > Math.PI) {
+            this.theta -= 2 * Math.PI;
+        }
+    }
+};
+
+var period0 = 0;
+
+function animate() {
+    // cube.position.x = Date.now() * 3 / 100 % 300 - 150;
+    // ellipse
+    // camera.position.x = cameraEllipseAnimate.x();
+    // camera.position.y = cameraEllipseAnimate.y();
+    // camera.position.z = cameraEllipseAnimate.z();
+    cameraEllipseAnimate.increase();
+    ball.position.x = cameraEllipseAnimate.x();
+    // ball.position.y = cameraEllipseAnimate.y();
+    ball.position.z = cameraEllipseAnimate.z();
+    period0++;
+    if (period0 % 10 === 0) {
+        errout("x = " + ball.position.x + ", y = " + ball.position.y + ", z = " + ball.position.z);
+    }
 }
 
 function render() {
@@ -129,10 +238,13 @@ function render() {
     // if (playAnimation) {
     // }
 
-    // updateCamera();
+    updateCamera();
 
     // 用于统计帧速率
     frameCount++;
 
+    animate();
+
     renderer.render(scene, camera);
+
 }
