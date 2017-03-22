@@ -6,8 +6,8 @@
 var DEBUG_TEXT_MAX_NUMBER = 14;
 
 // 是否开启调试模式，true开启，false关闭
-// var DEBUG_ON_OFF = true;
-var DEBUG_ON_OFF = false;
+var DEBUG_ON_OFF = true;
+// var DEBUG_ON_OFF = false;
 
 // 更规范的方式，定义全局变量，然后通过全局变量访问其他库中定义的函数和变量
 var THREE = window.THREE;
@@ -68,11 +68,6 @@ function degrees2radians(degrees) {
 // 一角度对应的弧度
 var ONE_DEGREE_IN_RADIANS = degrees2radians(1);
 
-// 画布的宽和高，涉及到绘制区域的大小，统一使用这两个变量。
-// 这两个变量在文档加载，窗口大小改变，显示左侧面板等改变画布大小的区域等情况下，都会更新。
-var canvHeight;
-var canvWidth;
-
 // getRandColor() 从给定列表中随机选取一种颜色
 var colors = [
     0xFF62B0,
@@ -107,4 +102,49 @@ function FPS() {
     lastFrameCount = frameCount;
     window.setTimeout(FPS, 1000);
 }
+
+// 画布的宽和高，涉及到绘制区域的大小，统一使用这两个变量。
+// 这两个变量在文档加载，窗口大小改变，显示左侧面板等改变画布大小的区域等情况下，都会更新。
+var canvHeight;
+var canvWidth;
+
+function canvasResize() {
+    "use strict";
+    /* 获取画布的宽和高
+     * 用jQuery.width()、jQuery.outerWidth()、document.getElementById(div_id).width获取宽高都会出问题。
+     * 但是用window.innerWidth可以取得很好的效果。
+     */
+    canvHeight = window.innerHeight;
+    canvWidth = window.innerWidth;
+    if (camera) {
+        camera.aspect = canvWidth / canvHeight;
+        camera.updateProjectionMatrix();
+    }
+    if (renderer) {
+        renderer.setSize(canvWidth, canvHeight);
+    }
+}
+
+// 重绘整个画布。除非必要，应避免对整个场景的重绘（调用这个函数）。
+function redraw() {
+    "use strict";
+    canvasResize();
+    var i;
+    for (i=0;i<scene.children.length;i++) {
+        scene.remove(scene.children[i]);
+    }
+    // 可能涉及到更复杂的问题
+    // 避免多个requestAnimationFrame()循环同时绘制图像，造成帧速率太高（远高于60FPS）
+    // 停止已有的绘制刷新循环
+    stop();
+    // 初始化新的图形绘制，绘制整个场景
+    // initGraphics();
+}
+
+// 禁止用户选择文本，优化UI体验
+// 浏览器限制：仅在IE和Chrome中有效，在Firefox中无效。
+document.body.onselectstart = function () {
+    "use strict";
+    return false;
+};
 
