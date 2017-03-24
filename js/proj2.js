@@ -100,7 +100,7 @@ function initGraphics() {
 
     updateLight();
     launchDefaultCamera();
-    FPS();
+    // FPS();
 
     render();
 }
