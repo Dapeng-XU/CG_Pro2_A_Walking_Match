@@ -56,24 +56,6 @@ function initGraphics() {
     // }
     // drawSingleWall(vertexList[vertexListLength - 1], vertexList[0]);
 
-    // 绘制很大的天花板和地板
-    // loadFloorAndCeiling([0, 0], FLOOR_VERTICES, {floorFill: 'images/materials/gray50.jpg'});
-
-    // var floor_for_basic_shape;
-    // // 从已添加的对象中寻找地板元素，以便于移动用于调试的基本图形
-    // for (i = 0; i < scene.children.length; i++) {
-    //     if (scene.children[i].typename === 'floor') {
-    //         floor_for_basic_shape = scene.children[i];
-    //         break;
-    //     }
-    // }
-    // if (!floor_for_basic_shape) {
-    //     errout('error', true);
-    // }
-
-    // 加载户型数据，并进行解析和绘制
-    // loadApartment();
-
     // 添加星空背景
     // starsBackground();
 
@@ -85,58 +67,7 @@ function initGraphics() {
     var axisHelper = new THREE.AxisHelper(1000);
     scene.add(axisHelper);
 
-    // 显示几何对象
-    // var geo_box_0 = new THREE.BoxGeometry(2, 2, 2, 1, 1, 1);
-    // var mat_box_0 = new THREE.MeshBasicMaterial({
-    //     color: 0x222222,
-    //     lights: false
-    // });
-    // var cube = new THREE.Mesh(geo_box_0, mat_box_0);
-    // // cube.position = new THREE.Vector3(0, 0, 0);
-    // scene.add(cube);
-    // var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-    // var cube = new THREE.Mesh( geometry, material );
-    // scene.add( cube );
-
-    // var geometry, material;
-    // for (j = 0; j < 30; j++)
-    // {
-    //     if (j >= 13 && j <= 18) {
-    //         continue;
-    //     }
-    //     geometry = new THREE.BoxGeometry( 5, 5, 5 );
-    //     for ( i = 0; i < geometry.faces.length; i += 2 ) {
-    //         var hex = Math.random() * 0xffffff;
-    //         geometry.faces[ i ].color.setHex( hex );
-    //         geometry.faces[ i + 1 ].color.setHex( hex );
-    //     }
-    //     material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
-    //     cube = new THREE.Mesh( geometry, material );
-    //     cube.position.x = 0;
-    //     cube.position.y = 0;
-    //     cube.position.z = j * 5 - 75;
-    //     scene.add( cube );
-    // }
-    //
-    // {
-    //     geometry = new THREE.SphereGeometry( 4, 8, 8 );
-    //     for ( i = 0; i < geometry.faces.length; i += 3) {
-    //         var hex = getRandColor();
-    //         geometry.faces[i].color.setHex( hex );
-    //         if (geometry.faces[i+1] !== undefined) {
-    //             geometry.faces[i+1].color.setHex( hex );
-    //         }
-    //         if (geometry.faces[i+2] !== undefined) {
-    //             geometry.faces[i+2].color.setHex( hex );
-    //         }
-    //     }
-    //     material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5} );
-    //     ball = new THREE.Mesh( geometry, material );
-    //     scene.add(ball);
-    // }
-
-    bp = new BodyPart('arm_central', 'arm_circular');
+    bp = new WalkingMatch();
     bp.initialize();
 
     // 显示网格
@@ -164,53 +95,6 @@ function initGraphics() {
 
     // 射线，用于拾取(pick)对象
     // raycaster = new THREE.Raycaster();
-
-    // var normalized_coeff = 16;
-    //
-    //
-    // var g = new THREE.Group();
-    // {
-    //     var pos = new THREE.Vector3();
-    //     var mat = new THREE.Matrix4();
-    //     var centralPart = bodyProportions.arm_central;
-    //     var circularPart = bodyProportions.arm_circular;
-    //
-    //     geometry = new THREE.BoxGeometry( centralPart.length, centralPart.height, centralPart.depth );
-    //     for ( i = 0; i < geometry.faces.length; i += 2 ) {
-    //         var hex = getRandColor();
-    //         geometry.faces[ i ].color.setHex( hex );
-    //         geometry.faces[ i + 1 ].color.setHex( hex );
-    //     }
-    //     material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
-    //     cube = new THREE.Mesh( geometry, material );
-    //     cube.bodyPart = "central";
-    //     pos = new THREE.Vector3(0, -centralPart.height / 2, 0);
-    //     mat.setPosition(pos);
-    //     cube.matrixAutoUpdate = false;
-    //     cube.matrix.copy(mat);
-    //     cube.keyPoint = new THREE.Vector3(0, -centralPart.height, 0);
-    //     g.add(cube);
-    //
-    //     geometry = new THREE.BoxGeometry( circularPart.length, circularPart.height, circularPart.depth );
-    //     for ( i = 0; i < geometry.faces.length; i += 2 ) {
-    //         var hex = getRandColor();
-    //         geometry.faces[ i ].color.setHex( hex );
-    //         geometry.faces[ i + 1 ].color.setHex( hex );
-    //     }
-    //     material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
-    //     cube = new THREE.Mesh( geometry, material );
-    //     cube.bodyPart = "circular";
-    //     pos = new THREE.Vector3(0, -centralPart.height - circularPart / 2, 0);
-    //     mat.setPosition(pos);
-    //     cube.matrixAutoUpdate = false;
-    //     cube.matrix.copy(mat);
-    //     cube.keyPoint = null;
-    //     g.add(cube);
-    // }
-    //
-    // scene.add(g);
-
-
 
     updateLight();
     launchDefaultCamera();
@@ -267,8 +151,7 @@ cameraEllipseAnimate = {
 };
 
 // var period0 = 0;
-
-var theta = 0;
+// var theta = 0;
 
 function animate() {
     // cube.position.x = Date.now() * 3 / 100 % 300 - 150;
@@ -284,19 +167,13 @@ function animate() {
     // if (period0 % 10 === 0) {
     //     errout("x = " + ball.position.x + ", y = " + ball.position.y + ", z = " + ball.position.z);
     // }
-    bp.rotate(theta, theta * 2);
-    theta += 0.16;
+    // bp.rotate(theta, theta * 2);
+    // theta += 0.16;
 }
-
-
 
 function render() {
     "use strict";
     requestId = requestAnimationFrame(render);
-
-    // 播放动画的代码应该放在下面的if语句块中，便于统一控制是否播放动画
-    // if (playAnimation) {
-    // }
 
     updateCamera();
 
@@ -306,76 +183,54 @@ function render() {
     animate();
 
     renderer.render(scene, camera);
-
 }
+
+var NORMALIZATION_COEFFICIENT= 16;
 
 bodyProportions = {
     head : {
-        length: 180,
-        height: 300,
-        depth: 250
+        length: 180 / NORMALIZATION_COEFFICIENT,
+        height: 300 / NORMALIZATION_COEFFICIENT,
+        depth: 250 / NORMALIZATION_COEFFICIENT
     },
     belly : {
-        length: 300,
-        height: 650,
-        depth: 300
+        length: 300 / NORMALIZATION_COEFFICIENT,
+        height: 650 / NORMALIZATION_COEFFICIENT,
+        depth: 300 / NORMALIZATION_COEFFICIENT
     },
     arm_central : {
-        length: 115,
-        height: 390,
-        depth: 250
+        length: 115 / NORMALIZATION_COEFFICIENT,
+        height: 390 / NORMALIZATION_COEFFICIENT,
+        depth: 250 / NORMALIZATION_COEFFICIENT
     },
     arm_circular : {
-        length: 115,
-        height: 460,
-        depth: 250
+        length: 115 / NORMALIZATION_COEFFICIENT,
+        height: 460 / NORMALIZATION_COEFFICIENT,
+        depth: 250 / NORMALIZATION_COEFFICIENT
     },
     leg_central : {
-        length: 150,
-        height: 570,
-        depth: 200
+        length: 150 / NORMALIZATION_COEFFICIENT,
+        height: 570 / NORMALIZATION_COEFFICIENT,
+        depth: 200 / NORMALIZATION_COEFFICIENT
     },
     leg_circular : {
-        length: 150,
-        height: 575,
-        depth: 200
+        length: 150 / NORMALIZATION_COEFFICIENT,
+        height: 575 / NORMALIZATION_COEFFICIENT,
+        depth: 200 / NORMALIZATION_COEFFICIENT
     }
 };
 
-bodyKeyPoint = {
-    belly : {
-        x : 0,
-        y : 0,
-        z : 0
-    },
-    head : {
-        x : 0,
-        y : (bodyProportions.head.height + bodyProportions.belly.height) / 2,
-        z : 0
-    },
-    arm_central : {
-        x : 0,
-        y : 0,
-        z : 0
-    },
-    arm_circular : {
-        x : 0,
-        y : 0,
-        z : 0
-    },
-    leg_central : {
-        x : 0,
-        y : 0,
-        z : 0
-    },
-    leg_circular : {
-        x : 0,
-        y : 0,
-        z : 0
-    }
+bodyFixedPoint = {
+    belly : new THREE.Vector3(0,0,0),
+    head : new THREE.Vector3(0,(bodyProportions.head.height + bodyProportions.belly.height) / 2,0),
+    left_arm : new THREE.Vector3(-(bodyProportions.arm_central.length + bodyProportions.belly.length) / 2,
+        bodyProportions.belly.height / 2, 0),
+    right_arm : new THREE.Vector3(+(bodyProportions.arm_central.length + bodyProportions.belly.length) / 2,
+        bodyProportions.belly.height / 2, 0),
+    left_leg : new THREE.Vector3(-bodyProportions.belly.length / 4, -bodyProportions.belly.height / 2, 0),
+    right_leg : new THREE.Vector3(+bodyProportions.belly.length / 4, -bodyProportions.belly.height / 2, 0)
 };
 
-var NORMALIZATION_COEFFICIENT= 16;
 
 function BodyPart(central, circular) {
     this.centralPart = bodyProportions[central];
@@ -385,6 +240,7 @@ function BodyPart(central, circular) {
     this.circularPartName = circular;
     this.circularPartMesh = null;
     this.group = new THREE.Group();
+    this.position = new THREE.Vector3(0, 0, 0);
 }
 
 BodyPart.prototype = {
@@ -394,8 +250,8 @@ BodyPart.prototype = {
         var mat = new THREE.Matrix4();
         this.group.matrixAutoUpdate = false;
 
-        var geometry = new THREE.BoxGeometry( this.centralPart.length / NORMALIZATION_COEFFICIENT,
-            this.centralPart.height / NORMALIZATION_COEFFICIENT, this.centralPart.depth / NORMALIZATION_COEFFICIENT );
+        var geometry = new THREE.BoxGeometry( this.centralPart.length,
+            this.centralPart.height, this.centralPart.depth );
         for ( i = 0; i < geometry.faces.length; i += 2 ) {
             var hex = getRandColor();
             geometry.faces[ i ].color.setHex( hex );
@@ -405,15 +261,15 @@ BodyPart.prototype = {
         var cube = new THREE.Mesh( geometry, material );
         cube.bodyPart = this.centralPartName;
         cube.matrixAutoUpdate = false;
-        pos.y = -this.centralPart.height / NORMALIZATION_COEFFICIENT / 2;
+        pos.y = -this.centralPart.height / 2;
         mat.setPosition(pos);
         cube.matrix.copy(mat);
-        cube.keyPoint = new THREE.Vector3(0, -this.centralPart.height / NORMALIZATION_COEFFICIENT);
+        cube.keyPoint = new THREE.Vector3(0, -this.centralPart.height, 0);
         this.centralPartMesh = cube;
         this.group.add(cube);
 
-        geometry = new THREE.BoxGeometry( this.circularPart.length / NORMALIZATION_COEFFICIENT,
-            this.circularPart.height / NORMALIZATION_COEFFICIENT, this.circularPart.depth / NORMALIZATION_COEFFICIENT );
+        geometry = new THREE.BoxGeometry( this.circularPart.length,
+            this.circularPart.height, this.circularPart.depth );
         for ( i = 0; i < geometry.faces.length; i += 2 ) {
             var hex = getRandColor();
             geometry.faces[ i ].color.setHex( hex );
@@ -424,15 +280,13 @@ BodyPart.prototype = {
         cube.matrixAutoUpdate = false;
         pos.x = 0;
         pos.z = 0;
-        pos.y = -this.circularPart.height / NORMALIZATION_COEFFICIENT/ 2
-            - this.centralPart.height / NORMALIZATION_COEFFICIENT;
+        pos.y = -this.circularPart.height/ 2
+            - this.centralPart.height;
         mat.setPosition(pos);
         cube.matrix.copy(mat);
         cube.keyPoint = new THREE.Vector3(0, 0, 0);
         this.circularPartMesh = cube;
         this.group.add(cube);
-
-        scene.add(this.group);
     },
     rotate : function(centralDegree, circularDegree) {
         if (circularDegree < 0) {
@@ -445,7 +299,7 @@ BodyPart.prototype = {
         var original = new THREE.Vector3(0, 0, 0);
         var vec = new THREE.Vector3();
 
-        vec.y = -bodyProportions[this.circularPartName].height / NORMALIZATION_COEFFICIENT / 2;
+        vec.y = -bodyProportions[this.circularPartName].height / 2;
         tranmat.setPosition(vec);
         curmat.makeRotationX(degrees2radians(-centralDegree));
         tranmat.premultiply(curmat);
@@ -454,18 +308,98 @@ BodyPart.prototype = {
         tranmat.premultiply(curmat);
         this.circularPartMesh.matrix.copy(tranmat);
 
-        tranmat = new THREE.Matrix4();
+        tranmat.copy(zero);
         tranmat.makeRotationX(degrees2radians(-circularDegree));
+        curmat.copy(zero);
+        curmat.setPosition(this.position);
+        tranmat.premultiply(curmat);
         this.group.matrix.copy(tranmat);
     }
 };
 
-// function WalkingMatch() {
-//     this.leftArm = new BodyPart();
-//     this.group = new THREE.Group();
-// }
-//
-// WalkingMatch.prototype = {
-//
-// };
+function WalkingMatch() {
+    this.leftArm = new BodyPart('arm_central', 'arm_circular');
+    this.rightArm = new BodyPart('arm_central', 'arm_circular');
+    this.leftLeg = new BodyPart('leg_central', 'leg_circular');
+    this.rightLeg = new BodyPart('leg_central', 'leg_circular');
+    this.bellyMesh = null;
+    this.headMesh = null;
+    this.group = new THREE.Group();
+    this.position = new THREE.Vector3();
+    this.fixedPoint = new THREE.Vector3(0, bodyProportions.belly.height / 2 + bodyProportions.leg_central.height +
+        bodyProportions.leg_circular.height );
+}
+
+WalkingMatch.prototype = {
+    constructor : WalkingMatch,
+    initialize: function () {
+        this.leftArm.initialize();
+        this.rightArm.initialize();
+        this.leftLeg.initialize();
+        this.rightLeg.initialize();
+        this.group.add(this.leftArm.group);
+        this.group.add(this.rightArm.group);
+        this.group.add(this.leftLeg.group);
+        this.group.add(this.rightLeg.group);
+
+        this.group.matrixAutoUpdate = false;
+
+        var mat = new THREE.Matrix4();
+        this.group.matrixAutoUpdate = false;
+        this.leftArm.position = bodyFixedPoint.left_arm;
+        this.leftArm.rotate(0, 0);
+        this.rightArm.position = bodyFixedPoint.right_arm;
+        this.rightArm.rotate(0, 0);
+        this.leftLeg.position = bodyFixedPoint.left_leg;
+        this.leftLeg.rotate(0, 0);
+        this.rightLeg.position = bodyFixedPoint.right_leg;
+        this.rightLeg.rotate(0, 0);
+
+        // Create the belly and the head
+        var belly = bodyProportions.belly;
+        var geometry = new THREE.BoxGeometry( belly.length, belly.height, belly.depth );
+        for ( i = 0; i < geometry.faces.length; i += 2 ) {
+            var hex = getRandColor();
+            geometry.faces[ i ].color.setHex( hex );
+            geometry.faces[ i + 1 ].color.setHex( hex );
+        }
+        var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
+        var cube = new THREE.Mesh( geometry, material );
+        cube.bodyPart = 'belly';
+        cube.matrixAutoUpdate = false;
+        mat.setPosition(bodyFixedPoint.belly);
+        cube.matrix.copy(mat);
+        cube.keyPoint = new THREE.Vector3(0, 0, 0);
+        this.bellyMesh = cube;
+        this.group.add(cube);
+
+        var head = bodyProportions.head;
+        geometry = new THREE.BoxGeometry( head.length, head.height, head.depth );
+        for ( i = 0; i < geometry.faces.length; i += 2 ) {
+            var hex = getRandColor();
+            geometry.faces[ i ].color.setHex( hex );
+            geometry.faces[ i + 1 ].color.setHex( hex );
+        }
+        material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
+        cube = new THREE.Mesh( geometry, material );
+        cube.bodyPart = 'head';
+        cube.matrixAutoUpdate = false;
+        mat.setPosition(bodyFixedPoint.head);
+        cube.matrix.copy(mat);
+        cube.keyPoint = new THREE.Vector3(0, 0, 0);
+        this.headMesh = cube;
+        this.group.add(cube);
+
+        scene.add(this.group);
+        this.rotate(0);
+    },
+    rotate : function (degree) {
+        var tranmat = new THREE.Matrix4();
+        var curmat = new THREE.Matrix4();
+
+        curmat.setPosition(this.fixedPoint);
+        tranmat.premultiply(curmat);
+        this.group.matrix.copy(tranmat);
+    }
+};
 
