@@ -12,6 +12,7 @@ document.body.onload = function () {
 
 var cube;
 var ball;
+var bp;
 
 // 初始化的图形绘制
 var scene = new THREE.Scene();
@@ -98,39 +99,45 @@ function initGraphics() {
     // var cube = new THREE.Mesh( geometry, material );
     // scene.add( cube );
 
-    var geometry, material;
-    for (j = 0; j < 30; j++)
-    {
-        geometry = new THREE.BoxGeometry( 5, 5, 5 );
-        for ( i = 0; i < geometry.faces.length; i += 2 ) {
-            var hex = Math.random() * 0xffffff;
-            geometry.faces[ i ].color.setHex( hex );
-            geometry.faces[ i + 1 ].color.setHex( hex );
-        }
-        material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
-        cube = new THREE.Mesh( geometry, material );
-        cube.position.x = 0;
-        cube.position.y = 0;
-        cube.position.z = j * 5 - 75;
-        scene.add( cube );
-    }
+    // var geometry, material;
+    // for (j = 0; j < 30; j++)
+    // {
+    //     if (j >= 13 && j <= 18) {
+    //         continue;
+    //     }
+    //     geometry = new THREE.BoxGeometry( 5, 5, 5 );
+    //     for ( i = 0; i < geometry.faces.length; i += 2 ) {
+    //         var hex = Math.random() * 0xffffff;
+    //         geometry.faces[ i ].color.setHex( hex );
+    //         geometry.faces[ i + 1 ].color.setHex( hex );
+    //     }
+    //     material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
+    //     cube = new THREE.Mesh( geometry, material );
+    //     cube.position.x = 0;
+    //     cube.position.y = 0;
+    //     cube.position.z = j * 5 - 75;
+    //     scene.add( cube );
+    // }
+    //
+    // {
+    //     geometry = new THREE.SphereGeometry( 4, 8, 8 );
+    //     for ( i = 0; i < geometry.faces.length; i += 3) {
+    //         var hex = getRandColor();
+    //         geometry.faces[i].color.setHex( hex );
+    //         if (geometry.faces[i+1] !== undefined) {
+    //             geometry.faces[i+1].color.setHex( hex );
+    //         }
+    //         if (geometry.faces[i+2] !== undefined) {
+    //             geometry.faces[i+2].color.setHex( hex );
+    //         }
+    //     }
+    //     material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5} );
+    //     ball = new THREE.Mesh( geometry, material );
+    //     scene.add(ball);
+    // }
 
-    {
-        geometry = new THREE.SphereGeometry( 4, 8, 8 );
-        for ( i = 0; i < geometry.faces.length; i += 3) {
-            var hex = getRandColor();
-            geometry.faces[i].color.setHex( hex );
-            if (geometry.faces[i+1] !== undefined) {
-                geometry.faces[i+1].color.setHex( hex );
-            }
-            if (geometry.faces[i+2] !== undefined) {
-                geometry.faces[i+2].color.setHex( hex );
-            }
-        }
-        material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5} );
-        ball = new THREE.Mesh( geometry, material );
-        scene.add(ball);
-    }
+    bp = new BodyPart('arm_central', 'arm_circular');
+    bp.initialize();
 
     // 显示网格
     // var gridHelper = new THREE.GridHelper(10, 20);
@@ -158,6 +165,53 @@ function initGraphics() {
     // 射线，用于拾取(pick)对象
     // raycaster = new THREE.Raycaster();
 
+    // var normalized_coeff = 16;
+    //
+    //
+    // var g = new THREE.Group();
+    // {
+    //     var pos = new THREE.Vector3();
+    //     var mat = new THREE.Matrix4();
+    //     var centralPart = bodyProportions.arm_central;
+    //     var circularPart = bodyProportions.arm_circular;
+    //
+    //     geometry = new THREE.BoxGeometry( centralPart.length, centralPart.height, centralPart.depth );
+    //     for ( i = 0; i < geometry.faces.length; i += 2 ) {
+    //         var hex = getRandColor();
+    //         geometry.faces[ i ].color.setHex( hex );
+    //         geometry.faces[ i + 1 ].color.setHex( hex );
+    //     }
+    //     material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
+    //     cube = new THREE.Mesh( geometry, material );
+    //     cube.bodyPart = "central";
+    //     pos = new THREE.Vector3(0, -centralPart.height / 2, 0);
+    //     mat.setPosition(pos);
+    //     cube.matrixAutoUpdate = false;
+    //     cube.matrix.copy(mat);
+    //     cube.keyPoint = new THREE.Vector3(0, -centralPart.height, 0);
+    //     g.add(cube);
+    //
+    //     geometry = new THREE.BoxGeometry( circularPart.length, circularPart.height, circularPart.depth );
+    //     for ( i = 0; i < geometry.faces.length; i += 2 ) {
+    //         var hex = getRandColor();
+    //         geometry.faces[ i ].color.setHex( hex );
+    //         geometry.faces[ i + 1 ].color.setHex( hex );
+    //     }
+    //     material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
+    //     cube = new THREE.Mesh( geometry, material );
+    //     cube.bodyPart = "circular";
+    //     pos = new THREE.Vector3(0, -centralPart.height - circularPart / 2, 0);
+    //     mat.setPosition(pos);
+    //     cube.matrixAutoUpdate = false;
+    //     cube.matrix.copy(mat);
+    //     cube.keyPoint = null;
+    //     g.add(cube);
+    // }
+    //
+    // scene.add(g);
+
+
+
     updateLight();
     launchDefaultCamera();
     // FPS();
@@ -173,7 +227,7 @@ function launchDefaultCamera() {
     camera = new THREE.PerspectiveCamera(40, canvWidth / canvHeight, 0.1, 10000);
     // cPosition = new THREE.Vector3(10,10,10);
     lPosition = new THREE.Vector3(0,0,0);
-    var one = 30;
+    var one = 300;
     camera.position.x = one;
     camera.position.y = one;
     camera.position.z = one;
@@ -212,7 +266,9 @@ cameraEllipseAnimate = {
     }
 };
 
-var period0 = 0;
+// var period0 = 0;
+
+var theta = 0;
 
 function animate() {
     // cube.position.x = Date.now() * 3 / 100 % 300 - 150;
@@ -221,14 +277,18 @@ function animate() {
     // camera.position.y = cameraEllipseAnimate.y();
     // camera.position.z = cameraEllipseAnimate.z();
     cameraEllipseAnimate.increase();
-    ball.position.x = cameraEllipseAnimate.x();
+    // ball.position.x = cameraEllipseAnimate.x();
     // ball.position.y = cameraEllipseAnimate.y();
-    ball.position.z = cameraEllipseAnimate.z();
-    period0++;
-    if (period0 % 10 === 0) {
-        errout("x = " + ball.position.x + ", y = " + ball.position.y + ", z = " + ball.position.z);
-    }
+    // ball.position.z = cameraEllipseAnimate.z();
+    // period0++;
+    // if (period0 % 10 === 0) {
+    //     errout("x = " + ball.position.x + ", y = " + ball.position.y + ", z = " + ball.position.z);
+    // }
+    bp.rotate(theta, theta * 2);
+    theta += 0.16;
 }
+
+
 
 function render() {
     "use strict";
@@ -248,3 +308,164 @@ function render() {
     renderer.render(scene, camera);
 
 }
+
+bodyProportions = {
+    head : {
+        length: 180,
+        height: 300,
+        depth: 250
+    },
+    belly : {
+        length: 300,
+        height: 650,
+        depth: 300
+    },
+    arm_central : {
+        length: 115,
+        height: 390,
+        depth: 250
+    },
+    arm_circular : {
+        length: 115,
+        height: 460,
+        depth: 250
+    },
+    leg_central : {
+        length: 150,
+        height: 570,
+        depth: 200
+    },
+    leg_circular : {
+        length: 150,
+        height: 575,
+        depth: 200
+    }
+};
+
+bodyKeyPoint = {
+    belly : {
+        x : 0,
+        y : 0,
+        z : 0
+    },
+    head : {
+        x : 0,
+        y : (bodyProportions.head.height + bodyProportions.belly.height) / 2,
+        z : 0
+    },
+    arm_central : {
+        x : 0,
+        y : 0,
+        z : 0
+    },
+    arm_circular : {
+        x : 0,
+        y : 0,
+        z : 0
+    },
+    leg_central : {
+        x : 0,
+        y : 0,
+        z : 0
+    },
+    leg_circular : {
+        x : 0,
+        y : 0,
+        z : 0
+    }
+};
+
+var NORMALIZATION_COEFFICIENT= 16;
+
+function BodyPart(central, circular) {
+    this.centralPart = bodyProportions[central];
+    this.centralPartName = central;
+    this.centralPartMesh = null;
+    this.circularPart = bodyProportions[circular];
+    this.circularPartName = circular;
+    this.circularPartMesh = null;
+    this.group = new THREE.Group();
+}
+
+BodyPart.prototype = {
+    constructor : BodyPart,
+    initialize : function() {
+        var pos = new THREE.Vector3();
+        var mat = new THREE.Matrix4();
+        this.group.matrixAutoUpdate = false;
+
+        var geometry = new THREE.BoxGeometry( this.centralPart.length / NORMALIZATION_COEFFICIENT,
+            this.centralPart.height / NORMALIZATION_COEFFICIENT, this.centralPart.depth / NORMALIZATION_COEFFICIENT );
+        for ( i = 0; i < geometry.faces.length; i += 2 ) {
+            var hex = getRandColor();
+            geometry.faces[ i ].color.setHex( hex );
+            geometry.faces[ i + 1 ].color.setHex( hex );
+        }
+        var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } )
+        var cube = new THREE.Mesh( geometry, material );
+        cube.bodyPart = this.centralPartName;
+        cube.matrixAutoUpdate = false;
+        pos.y = -this.centralPart.height / NORMALIZATION_COEFFICIENT / 2;
+        mat.setPosition(pos);
+        cube.matrix.copy(mat);
+        cube.keyPoint = new THREE.Vector3(0, -this.centralPart.height / NORMALIZATION_COEFFICIENT);
+        this.centralPartMesh = cube;
+        this.group.add(cube);
+
+        geometry = new THREE.BoxGeometry( this.circularPart.length / NORMALIZATION_COEFFICIENT,
+            this.circularPart.height / NORMALIZATION_COEFFICIENT, this.circularPart.depth / NORMALIZATION_COEFFICIENT );
+        for ( i = 0; i < geometry.faces.length; i += 2 ) {
+            var hex = getRandColor();
+            geometry.faces[ i ].color.setHex( hex );
+            geometry.faces[ i + 1 ].color.setHex( hex );
+        }
+        cube = new THREE.Mesh( geometry, material );
+        cube.bodyPart = this.circularPartName;
+        cube.matrixAutoUpdate = false;
+        pos.x = 0;
+        pos.z = 0;
+        pos.y = -this.circularPart.height / NORMALIZATION_COEFFICIENT/ 2
+            - this.centralPart.height / NORMALIZATION_COEFFICIENT;
+        mat.setPosition(pos);
+        cube.matrix.copy(mat);
+        cube.keyPoint = new THREE.Vector3(0, 0, 0);
+        this.circularPartMesh = cube;
+        this.group.add(cube);
+
+        scene.add(this.group);
+    },
+    rotate : function(centralDegree, circularDegree) {
+        if (circularDegree < 0) {
+            circularDegree = 0;
+        }
+
+        var tranmat = new THREE.Matrix4();
+        var curmat = new THREE.Matrix4();
+        var zero = new THREE.Matrix4();
+        var original = new THREE.Vector3(0, 0, 0);
+        var vec = new THREE.Vector3();
+
+        vec.y = -bodyProportions[this.circularPartName].height / NORMALIZATION_COEFFICIENT / 2;
+        tranmat.setPosition(vec);
+        curmat.makeRotationX(degrees2radians(-centralDegree));
+        tranmat.premultiply(curmat);
+        curmat.copy(zero);
+        curmat.setPosition(this.centralPartMesh.keyPoint);
+        tranmat.premultiply(curmat);
+        this.circularPartMesh.matrix.copy(tranmat);
+
+        tranmat = new THREE.Matrix4();
+        tranmat.makeRotationX(degrees2radians(-circularDegree));
+        this.group.matrix.copy(tranmat);
+    }
+};
+
+// function WalkingMatch() {
+//     this.leftArm = new BodyPart();
+//     this.group = new THREE.Group();
+// }
+//
+// WalkingMatch.prototype = {
+//
+// };
+

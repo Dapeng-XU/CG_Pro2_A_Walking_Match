@@ -161,3 +161,20 @@ function stop() {
         requestId = undefined;
     }
 }
+
+function printMatrix4(mat4) {
+    "use strict";
+    if (mat4 !== undefined && mat4 instanceof THREE.Matrix4) {
+        var i, j;
+        var str = "";
+        for (i = 0; i < 4; i++) {
+            str = (i == 0) ? " [ " : "   ";
+            for (j = 0; j < 4; j++) {
+                // 这里需要注意，Three.js的矩阵元素在一维数组中是列主顺序存储的。
+                str += mat4.elements[i + 4 * j] + ( (i == 3 && j == 3) ? "  " : ", " );
+            }
+            str += (i == 3) ? " ] " : "   ";
+            errout(str);
+        }
+    }
+}
