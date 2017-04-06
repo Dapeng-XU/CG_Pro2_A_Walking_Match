@@ -8,10 +8,10 @@ window.onresize = canvasResize;
 document.body.onload = function () {
     "use strict";
     redraw();
-}
+};
 
-var cube;
-var ball;
+// var cube;
+// var ball;
 var wm;
 
 // 初始化的图形绘制
@@ -43,26 +43,6 @@ function initGraphics() {
     }
     renderer.sortObjects = false;
 
-    // 此处，交换顶点次序能够得到相同的结果
-    // var vertexList = [[-7, -7], [-5, 20], [16, 16], [19, 1]];
-    // var vertexList = [[-8, -8], [-8, 8], [8, 8], [8, -8]];
-    // var vertexList = [[-20, -20], [30, -30], [40, 30], [50, 20], [-20, 40]];
-    // loadFloorAndCeiling([0, 0], vertexList, {floorFill: 'images/materials/white.jpg'});
-    // loadFloorAndCeiling([0, 0], vertexList);
-
-    // var vertexListLength = vertexList.length;
-    // for (i = 0; i < vertexListLength - 1; i++) {
-    //     drawSingleWall(vertexList[i], vertexList[i + 1]);
-    // }
-    // drawSingleWall(vertexList[vertexListLength - 1], vertexList[0]);
-
-    // 添加星空背景
-    // starsBackground();
-
-    // 创建方向光和环境光
-    // createDirectionalLight();
-    // createAmbientLight();
-
     drawCheckerboard();
 
     // 显示一个坐标轴，红色X，绿色Y，蓝色Z
@@ -71,29 +51,6 @@ function initGraphics() {
 
     wm = new WalkingMatch();
     wm.initialize();
-
-    // 显示网格
-    // var gridHelper = new THREE.GridHelper(10, 20);
-    // var gridHelper2 = new THREE.GridHelper(10, 20);
-    // gridHelper2.position.y = room.height;
-    // scene.add(gridHelper);
-    // scene.add(gridHelper2);
-    // var gridHelper3 = new THREE.GridHelper(10, 20);
-    // gridHelper3.rotateX(Math.PI / 2);
-    // gridHelper3.position.z = 8;
-    // scene.add(gridHelper3);
-    // var gridHelper4 = new THREE.GridHelper(10, 20);
-    // gridHelper4.rotateX(Math.PI / 2);
-    // gridHelper4.position.z = -8;
-    // scene.add(gridHelper4);
-    // var gridHelper5 = new THREE.GridHelper(10, 20);
-    // gridHelper5.rotateZ(Math.PI / 2);
-    // gridHelper5.position.x = 8;
-    // scene.add(gridHelper5);
-    // var gridHelper6 = new THREE.GridHelper(10, 20);
-    // gridHelper6.rotateZ(Math.PI / 2);
-    // gridHelper6.position.x = -8;
-    // scene.add(gridHelper6);
 
     // 射线，用于拾取(pick)对象
     // raycaster = new THREE.Raycaster();
