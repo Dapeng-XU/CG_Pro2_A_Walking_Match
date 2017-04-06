@@ -2,23 +2,23 @@
 
 ## Objective
 
-    To implement a guy made up of several cubes, walking along a circle on
-    checkerboard.
+To implement a guy made up of several cubes, walking along a circle on
+checkerboard.
 
 ## Source Files
 
-    The main code is written in 
-    [js/proj2.js](https://github.com/Dapeng-XU/CG_Pro2_A_Walking_Match/blob/master/js/proj2.js)
-    . The other JavaScript file 
-    [js/tools.js](https://github.com/Dapeng-XU/CG_Pro2_A_Walking_Match/blob/master/js/tools.js)
-    contains some auxiliary code, which is created when I coded another 
-    project last year.
+The main code is written in 
+[js/proj2.js](https://github.com/Dapeng-XU/CG_Pro2_A_Walking_Match/blob/master/js/proj2.js)
+. The other JavaScript file 
+[js/tools.js](https://github.com/Dapeng-XU/CG_Pro2_A_Walking_Match/blob/master/js/tools.js)
+contains some auxiliary code, which is created when I coded another 
+project last year.
 
 ## Used third-party libraries
 
-    *   Three.js: v0.84.0
-    
-    *   jQuery: 3.1.1
+*   Three.js: v0.84.0
+
+*   jQuery: 3.1.1
 
 ## Critical technics
 
@@ -65,4 +65,4 @@
 
 ## Other problems
 
-    If you have any problem about this project, please send me a mail.
+If you have any problem about this project, please send me a mail.
