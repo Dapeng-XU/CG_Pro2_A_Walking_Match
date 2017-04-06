@@ -22,7 +22,7 @@ project last year.
 
 ## Critical technics
 
-1.  Object oriented programming(OOP)
+1.  __Object oriented programming(OOP)__
 
     Although the topic is computer graphics, I think the technics that helps
     me save time is OOP. Also, in order to use OOP, it is necessary to
@@ -36,7 +36,7 @@ project last year.
     far from the belly(circular part). The class BodyPart is designed for the
     arms and the legs. The class WalkingMatch is designed for the whole body.
 
-2.  3D transformations: translations and rotations
+2.  __3D transformations: translations and rotations__
 
     Every time drawing the frame, we need to traverse the objects in the scene 
     and compute the position and the angle of each object. Both the position
@@ -54,7 +54,7 @@ project last year.
     *   _Three.js_ Matrix4.premultiply(Matrix4)
     *   _Three.js_ Matrix4.copy(Matrix4)
 
-3.  Adjust the parameters
+3.  __Adjust the parameters__
 
     To make the guy behave like a man, I adjust a lots of parameters according
     to the data collected in the scientific experiments. These can be found in
