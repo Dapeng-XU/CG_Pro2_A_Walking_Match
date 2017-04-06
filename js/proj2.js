@@ -311,7 +311,7 @@ BodyPart.prototype = {
         var tranmat = new THREE.Matrix4();
         var curmat = new THREE.Matrix4();
         var zero = new THREE.Matrix4();
-        var original = new THREE.Vector3(0, 0, 0);
+        // var original = new THREE.Vector3(0, 0, 0);
         var vec = new THREE.Vector3();
 
         vec.y = -bodyProportions[this.circularPartName].height / 2;
