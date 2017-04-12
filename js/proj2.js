@@ -108,6 +108,9 @@ function updateCamera() {
     camera.updateMatrixWorld();
 }
 
+/// Camera Speed
+var INCREASING_UNIT = 0.01;
+
 var cameraEllipseAnimate = {
     theta : 0.0,
     xa : 2000,
@@ -125,7 +128,7 @@ var cameraEllipseAnimate = {
         return this.zb * Math.sin(this.theta);
     },
     increase : function () {
-        this.theta += WALKING_INCREASING_UNIT;
+        this.theta += INCREASING_UNIT;
         while (this.theta > Math.PI) {
             this.theta -= 2 * Math.PI;
         }
@@ -350,8 +353,8 @@ function WalkingMatch() {
     }
 }
 
-var INCREASING_UNIT = 0.01;
-var WALKING_INCREASING_UNIT = 0.5;
+/// Walking Speed
+var WALKING_INCREASING_UNIT = 0.1;
 
 WalkingMatch.prototype = {
     constructor : WalkingMatch,
